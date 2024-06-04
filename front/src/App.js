@@ -1,36 +1,53 @@
-// 必要なパッケージをインポートします
-import { MsalProvider, AuthenticatedTemplate, UnauthenticatedTemplate, useMsal } from "@azure/msal-react";
-import { PublicClientApplication } from "@azure/msal-browser";
-import { msalConfig } from "./msalConfig";
+import { Routes, Route, useNavigate } from "react-router-dom";
+// Material-UI imports
+import Grid from "@mui/material/Grid";
 
-// MSALの設定を行います
-const msalInstance = new PublicClientApplication(msalConfig);
+// MSAL imports
+import { MsalProvider } from "@azure/msal-react";
+import { CustomNavigationClient } from "./utils/NavigationClient";
 
-function App() {
-  const { instance } = useMsal();
+// Sample app imports
+import { PageLayout } from "./ui-components/PageLayout";
+import { Home } from "./pages/Home";
+import { Profile } from "./pages/Profile";
+import { Logout } from "./pages/Logout";
 
-  const handleLogin = () => {
-    instance.loginPopup().catch(e => {
-      console.error(e);
-    });
-  };
+// Class-based equivalents of "Profile" component
+import { ProfileWithMsal } from "./pages/ProfileWithMsal";
+import { ProfileRawContext } from "./pages/ProfileRawContext";
+import { ProfileUseMsalAuthenticationHook } from "./pages/ProfileUseMsalAuthenticationHook";
 
-  const handleLogout = () => {
-    instance.logout();
-  };
+function App({ pca }) {
+    // The next 3 lines are optional. This is how you configure MSAL to take advantage of the router's navigate functions when MSAL redirects between pages in your app
+    const navigate = useNavigate();
+    const navigationClient = new CustomNavigationClient(navigate);
+    pca.setNavigationClient(navigationClient);
 
-  return (
-    <MsalProvider instance={msalInstance}>
-      <button onClick={handleLogin}>Login</button>
-      <button onClick={handleLogout}>Logout</button>
-      <AuthenticatedTemplate>
-        {/* ログイン後に表示するコンテンツ */}
-      </AuthenticatedTemplate>
-      <UnauthenticatedTemplate>
-        {/* ログイン前に表示するコンテンツ */}
-      </UnauthenticatedTemplate>
-    </MsalProvider>
-  );
+    return (
+        <MsalProvider instance={pca}>
+            <PageLayout>
+                <Grid container justifyContent="center">
+                    <Pages />
+                </Grid>
+            </PageLayout>
+        </MsalProvider>
+    );
+}
+
+function Pages() {
+    return (
+        <Routes>
+            <Route path="/profile" element={<Profile />} />
+            <Route path="/profileWithMsal" element={<ProfileWithMsal />} />
+            <Route path="/profileRawContext" element={<ProfileRawContext />} />
+            <Route
+                path="/profileUseMsalAuthenticationHook"
+                element={<ProfileUseMsalAuthenticationHook />}
+            />
+            <Route path="/logout" element={<Logout />} />
+            <Route path="/" element={<Home />} />
+        </Routes>
+    );
 }
 
 export default App;
