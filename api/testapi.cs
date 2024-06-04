@@ -19,6 +19,7 @@ namespace Company.Function
             ClaimsPrincipal claimsPrincipal,
             ILogger log)
         {
+            
             log.LogInformation("C# HTTP trigger function processed a request.");
 
             var name = claimsPrincipal.Identity?.IsAuthenticated ?? false ?
