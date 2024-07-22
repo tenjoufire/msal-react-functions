@@ -13,6 +13,7 @@ export function Home() {
               <Button component={RouterLink} to="/profileUseMsalAuthenticationHook" variant="contained" color="primary">Request Access Token (using useMsalAuthentication hook)</Button>
               <Button component={RouterLink} to="/profileWithMsal" variant="contained" color="primary">Request Profile Information (using withMsal HOC)</Button>
               <Button component={RouterLink} to="/profileRawContext" variant="contained" color="primary">Request Profile Information (using raw context)</Button>
+              <Button component={RouterLink} to="/CallApi" variant="contained" color="primary">Call API</Button>
             </ButtonGroup>
           </AuthenticatedTemplate>
 

@@ -1,0 +1,3 @@
+REACT_APP_AZURE_AD_CLIENT_ID=2d867b31-6a81-42d6-a71c-3789bf4ec16b
+REACT_APP_AZURE_AD_TENANT_ID=944cc1a4-c55e-476f-a2da-06923ca202b0
+REACT_APP_API_ENDPOINT=https://functionapp-msal-react.azurewebsites.net/api/testapi

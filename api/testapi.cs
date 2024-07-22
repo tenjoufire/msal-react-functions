@@ -25,7 +25,7 @@ namespace Company.Function
             var name = claimsPrincipal.Identity?.IsAuthenticated ?? false ?
             claimsPrincipal.Identity?.Name :
             "名無し";
-            return new OkObjectResult($"Hello, {name}. This HTTP triggered function executed successfully.");
+            return new OkObjectResult("{\"name\":\"" + name + "\"}");
 
         }
     }
